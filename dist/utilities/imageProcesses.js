@@ -36,46 +36,17 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-var express_1 = require("express");
 var path = require("path");
 var sharp = require("sharp");
-var imageValidate_1 = require("./imageValidate");
-var routes = (0, express_1.Router)();
-routes.get("/", function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
-    var fileName, width, height, imageName, imagePath, resolvedPath;
-    return __generator(this, function (_a) {
-        switch (_a.label) {
-            case 0:
-                fileName = req.query.fileName;
-                width = req.query.width;
-                height = req.query.height;
-                imageName = "".concat(fileName, "_").concat(width, "_").concat(height, ".jpg");
-                return [4 /*yield*/, (0, imageValidate_1.cheackImgAvilable)("images/thumbnails", imageName)];
-            case 1:
-                // cheack if image is avilable
-                if (_a.sent()) {
-                    console.log("cached");
-                    res.type("image/jpg");
-                    imagePath = "images/thumbnails/".concat(imageName);
-                    resolvedPath = path.resolve(imagePath);
-                    // send the file to the api
-                    // return resolvedPath;
-                    res.sendFile(resolvedPath);
-                }
-                else {
-                    console.log("prossesed");
-                    imgProssesise(req, res);
-                }
-                return [2 /*return*/];
-        }
-    });
-}); });
-function imgProssesise(req, res) {
+function imageProcesses(req, res) {
     return __awaiter(this, void 0, void 0, function () {
         var fileName, width, height, imageName;
         return __generator(this, function (_a) {
             switch (_a.label) {
                 case 0:
+                    // get the query values from the url
+                    console.log(req);
+                    console.log(res);
                     fileName = req.query.fileName;
                     width = req.query.width;
                     height = req.query.height;
@@ -116,4 +87,4 @@ function imgProssesise(req, res) {
         });
     });
 }
-exports.default = routes;
+exports.default = imageProcesses;

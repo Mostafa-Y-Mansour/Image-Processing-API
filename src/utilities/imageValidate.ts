@@ -1,4 +1,4 @@
-import express, { Router } from "express";
+import express from "express";
 import { promises as fsPromises } from "fs";
 import path = require("path");
 
@@ -20,7 +20,7 @@ async function cheackImgAvilable(
 
   return isAvilable;
 }
-// if the image is there contenue to the next prossese
+// if the image is there continue to the next prossese
 const imageValidate = async (
   req: express.Request,
   res: express.Response,

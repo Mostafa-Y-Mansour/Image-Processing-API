@@ -61,7 +61,7 @@ function cheackImgAvilable(dirPath, imageName) {
     });
 }
 exports.cheackImgAvilable = cheackImgAvilable;
-// if the image is there contenue to the next prossese
+// if the image is there continue to the next prossese
 var imageValidate = function (req, res, next) { return __awaiter(void 0, void 0, void 0, function () {
     var fileName;
     return __generator(this, function (_a) {

@@ -35,11 +35,14 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
         if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
     }
 };
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 var express_1 = require("express");
 var path = require("path");
-var sharp = require("sharp");
 var imageValidate_1 = require("./imageValidate");
+var imageProcesses_1 = __importDefault(require("./imageProcesses"));
 var routes = (0, express_1.Router)();
 routes.get("/", function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
     var fileName, width, height, imageName, imagePath, resolvedPath;
@@ -64,56 +67,10 @@ routes.get("/", function (req, res) { return __awaiter(void 0, void 0, void 0, f
                 }
                 else {
                     console.log("prossesed");
-                    imgProssesise(req, res);
+                    (0, imageProcesses_1.default)(req, res);
                 }
                 return [2 /*return*/];
         }
     });
 }); });
-function imgProssesise(req, res) {
-    return __awaiter(this, void 0, void 0, function () {
-        var fileName, width, height, imageName;
-        return __generator(this, function (_a) {
-            switch (_a.label) {
-                case 0:
-                    fileName = req.query.fileName;
-                    width = req.query.width;
-                    height = req.query.height;
-                    imageName = "".concat(fileName, "_").concat(width, "_").concat(height, ".jpg");
-                    console.log(width, typeof width, isNaN(parseInt(width)));
-                    // conditions to check if the width and height is entered correctly
-                    if (+width === 0 ||
-                        typeof parseInt(width) !== "number" ||
-                        isNaN(parseInt(width))) {
-                        return [2 /*return*/, res.send("width should be a number Try again")];
-                    }
-                    if (+height === 0 ||
-                        typeof parseInt(height) !== "number" ||
-                        isNaN(parseInt(height))) {
-                        return [2 /*return*/, res.send("height should be a number Try again")];
-                    }
-                    // specify the type of the responce is an image
-                    res.type("image/jpg");
-                    // resize the image
-                    return [4 /*yield*/, sharp("images/fullImages/".concat(fileName, ".jpg"))
-                            .resize(+width, +height)
-                            .toFile("images/thumbnails/".concat(imageName))
-                            .then(function () {
-                            // resolve the full path of the image
-                            var imagePath = "images/thumbnails/".concat(imageName);
-                            var resolvedPath = path.resolve(imagePath);
-                            // send the file to the api
-                            res.sendFile(resolvedPath);
-                        })
-                            .catch(function () {
-                            throw new Error("failed to resize the image");
-                        })];
-                case 1:
-                    // resize the image
-                    _a.sent();
-                    return [2 /*return*/];
-            }
-        });
-    });
-}
 exports.default = routes;

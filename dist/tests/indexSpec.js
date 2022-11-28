@@ -41,19 +41,39 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 var supertest_1 = __importDefault(require("supertest"));
 var index_1 = __importDefault(require("../index"));
-var request = (0, supertest_1.default)(index_1.default);
-describe("Test endpoint responses", function () {
-    it("gets the afrompi endpoint", function (done) { return __awaiter(void 0, void 0, void 0, function () {
-        var response;
+var imageValidate_1 = require("../utilities/imageValidate");
+describe("check if the image is valid", function () {
+    it("should check if fjord.jpg image is available and return true", function () { return __awaiter(void 0, void 0, void 0, function () {
+        var result;
         return __generator(this, function (_a) {
             switch (_a.label) {
-                case 0: return [4 /*yield*/, request.get("/image?width=200&height=450&fileName=fjord")];
+                case 0: return [4 /*yield*/, (0, imageValidate_1.cheackImgAvilable)("images/fullImages", "fjord.jpg")];
                 case 1:
-                    response = _a.sent();
-                    expect(response.status).toBe(200);
-                    done();
+                    result = _a.sent();
+                    expect(result).toEqual(true);
                     return [2 /*return*/];
             }
         });
     }); });
+    it("should check if X.jpg image is available and return false", function () { return __awaiter(void 0, void 0, void 0, function () {
+        var result;
+        return __generator(this, function (_a) {
+            switch (_a.label) {
+                case 0: return [4 /*yield*/, (0, imageValidate_1.cheackImgAvilable)("images/fullImages", "X.jpg")];
+                case 1:
+                    result = _a.sent();
+                    expect(result).toEqual(false);
+                    return [2 /*return*/];
+            }
+        });
+    }); });
+});
+describe("GET /image/...", function () {
+    it("should respond with image ", function (done) {
+        (0, supertest_1.default)(index_1.default)
+            .get("/image?width=200&height=405&fileName=fjord")
+            .expect("Content-Type", "image/jpg")
+            .expect(200);
+        done();
+    });
 });
