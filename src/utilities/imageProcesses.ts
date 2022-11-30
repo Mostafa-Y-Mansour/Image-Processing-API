@@ -1,7 +1,7 @@
 import path = require("path");
 import sharp = require("sharp");
 
-let imageProcesses = async (
+const imageProcesses = async (
   fileName: string,
   width: number,
   height: number

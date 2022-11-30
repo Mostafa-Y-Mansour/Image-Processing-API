@@ -25,7 +25,7 @@ const imageValidate = async (
   req: express.Request,
   res: express.Response,
   next: () => void
-) => {
+): Promise<any> => {
   const fileName = req.query.fileName;
   // handle the error without app crashing
   if (await cheackImgAvilable("images/fullImages", `${fileName}.jpg`)) {
