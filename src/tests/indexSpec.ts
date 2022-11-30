@@ -4,12 +4,12 @@ import { cheackImgAvilable } from "../utilities/imageValidate";
 
 describe("check if the image is valid", () => {
   it("should check if fjord.jpg image is available and return true", async () => {
-    let result = await cheackImgAvilable("images/fullImages", "fjord.jpg");
+    const result = await cheackImgAvilable("images/fullImages", "fjord.jpg");
     expect(result).toEqual(true);
   });
 
   it("should check if X.jpg image is available and return false", async () => {
-    let result = await cheackImgAvilable("images/fullImages", "X.jpg");
+    const result = await cheackImgAvilable("images/fullImages", "X.jpg");
     expect(result).toEqual(false);
   });
 });

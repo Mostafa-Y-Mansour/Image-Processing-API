@@ -45,9 +45,9 @@ var imageValidate_1 = require("./imageValidate");
 var imageProcesses_1 = __importDefault(require("./imageProcesses"));
 var routes = (0, express_1.Router)();
 routes.get("/", function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
-    var fileName, width, height, imageName, imagePath, resolvedPath;
-    return __generator(this, function (_a) {
-        switch (_a.label) {
+    var fileName, width, height, imageName, imagePath, resolvedPath, _a, data, error;
+    return __generator(this, function (_b) {
+        switch (_b.label) {
             case 0:
                 fileName = req.query.fileName;
                 width = req.query.width;
@@ -55,21 +55,36 @@ routes.get("/", function (req, res) { return __awaiter(void 0, void 0, void 0, f
                 imageName = "".concat(fileName, "_").concat(width, "_").concat(height, ".jpg");
                 return [4 /*yield*/, (0, imageValidate_1.cheackImgAvilable)("images/thumbnails", imageName)];
             case 1:
-                // cheack if image is avilable
-                if (_a.sent()) {
-                    console.log("cached");
-                    res.type("image/jpg");
-                    imagePath = "images/thumbnails/".concat(imageName);
-                    resolvedPath = path.resolve(imagePath);
-                    // send the file to the api
-                    // return resolvedPath;
-                    res.sendFile(resolvedPath);
+                if (!_b.sent()) return [3 /*break*/, 2];
+                console.log("cached");
+                res.type("image/jpg");
+                imagePath = "images/thumbnails/".concat(imageName);
+                resolvedPath = path.resolve(imagePath);
+                // send the file to the api
+                res.sendFile(resolvedPath);
+                return [3 /*break*/, 4];
+            case 2:
+                console.log("prossesed");
+                // conditions to check if the width and height is entered correctly
+                if (+width === 0 || isNaN(+width)) {
+                    return [2 /*return*/, res
+                            .status(400)
+                            .json({ msg: "width should be a number Try again" })];
                 }
-                else {
-                    console.log("prossesed");
-                    (0, imageProcesses_1.default)(req, res);
+                if (+height === 0 || isNaN(+height)) {
+                    return [2 /*return*/, res
+                            .status(400)
+                            .json({ msg: "height should be a number Try again" })];
                 }
-                return [2 /*return*/];
+                return [4 /*yield*/, (0, imageProcesses_1.default)(fileName, width, height)];
+            case 3:
+                _a = _b.sent(), data = _a.data, error = _a.error;
+                if (error.msg) {
+                    return [2 /*return*/, res.status(400).json({ msg: error.msg })];
+                }
+                res.sendFile(data);
+                _b.label = 4;
+            case 4: return [2 /*return*/];
         }
     });
 }); });

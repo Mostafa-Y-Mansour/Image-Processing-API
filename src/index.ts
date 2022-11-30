@@ -7,7 +7,7 @@ const port = 3000;
 
 app.use("/image", imageValidate, routes);
 
-app.get("/", (req, res) => {
+app.get("/", (req: express.Request, res: express.Response): void => {
   res.send("Go To /image on te URL");
 });
 
